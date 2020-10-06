@@ -1,10 +1,15 @@
+// const dotenv = require("dotenv").config({ path: "./.env" });
+
 const express = require("express");
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const merchant_model = require("./merchant_model");
 const user_model = require("./user_model");
 
+// if (dotenv.error) {
+//   throw dotenv.error;
+// }
 app.use(express.json());
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
