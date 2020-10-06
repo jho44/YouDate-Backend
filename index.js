@@ -20,17 +20,36 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
-app.get("/", (req, res) => {
-  user_model
-    .getUsers()
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+const Pool = require("pg").Pool;
+console.log("url: ", process.env.DATABASE_URL);
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: false,
 });
+
+app.get("/", async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM test_table");
+    const results = { "results": result ? result.rows : null };
+    res.render("pages/db", results);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+});
+
+// app.get("/", (req, res) => {
+//   user_model
+//     .getUsers()
+//     .then((response) => {
+//       res.status(200).send(response);
+//     })
+//     .catch((err) => {
+//       res.status(500).send(err);
+//     });
+// });
 
 app.get("/userbyemail", (req, res) => {
   user_model

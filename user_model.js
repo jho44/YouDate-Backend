@@ -1,11 +1,24 @@
 const Pool = require("pg").Pool;
 
+// var url = process.env.DATABASE_URL;
+// console.log(url);
+// url = url.split(/(\/\/)|\/|:|@/g);
+// var user = url[4],
+//   host = url[8],
+//   database = url[12],
+//   password = url[6],
+//   port = url[10];
+
 const pool = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: 5432,
+  // user: user,
+  // host: host,
+  // database: database,
+  // password: password,
+  // port: port,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 // this function's just for testing
