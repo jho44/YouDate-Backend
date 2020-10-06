@@ -1,20 +1,10 @@
 const Pool = require("pg").Pool;
 
-const dotenv = require("dotenv").config({ path: "./.env" });
-if (dotenv.error) {
-  throw dotenv.error;
-}
-
 const pool = new Pool({
-  // user: process.env.USER,
-  // host: process.env.HOST,
-  // database: process.env.DATABASE,
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
   password: process.env.PASSWORD,
-  // port: process.env.PORT,
-  user: "my_user",
-  host: "localhost",
-  database: "my_database",
-  // password: "root",
   port: 5432,
 });
 
